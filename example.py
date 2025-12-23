@@ -77,7 +77,7 @@ def main():
     
     for filename, format_type in output_files.items():
         try:
-            transformer.save_to_file(filename, format=format_type)
+            transformer.save_to_file(filename, output_format=format_type)
             print(f"  ✓ Created {filename}")
         except Exception as e:
             print(f"  ✗ Error creating {filename}: {e}")

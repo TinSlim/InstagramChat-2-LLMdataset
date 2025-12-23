@@ -89,7 +89,7 @@ def test_transformer():
     print(f"  ✓ JSONL format generation works")
     
     # Test file output
-    transformer.save_to_file('test_output.json', format='chatml')
+    transformer.save_to_file('test_output.json', output_format='chatml')
     assert os.path.exists('test_output.json'), "Output file should be created"
     print(f"  ✓ File output works")
     

@@ -141,28 +141,28 @@ class MessageTransformer:
         else:
             return 'assistant'
     
-    def save_to_file(self, output_file: str, format: str = 'chatml') -> None:
+    def save_to_file(self, output_file: str, output_format: str = 'chatml') -> None:
         """
         Save transformed data to file.
         
         Args:
             output_file: Path to output file
-            format: Output format ('chatml', 'text', 'jsonl')
+            output_format: Output format ('chatml', 'text', 'jsonl')
         """
-        if format == 'chatml':
+        if output_format == 'chatml':
             data = self.to_chatml_format()
             with open(output_file, 'w', encoding='utf-8') as f:
                 json.dump(data, f, indent=2, ensure_ascii=False)
-        elif format == 'text':
+        elif output_format == 'text':
             data = self.to_text_format()
             with open(output_file, 'w', encoding='utf-8') as f:
                 f.write('\n'.join(data))
-        elif format == 'jsonl':
+        elif output_format == 'jsonl':
             data = self.to_jsonl_format()
             with open(output_file, 'w', encoding='utf-8') as f:
                 f.write('\n'.join(data))
         else:
-            raise ValueError(f"Unsupported format: {format}")
+            raise ValueError(f"Unsupported format: {output_format}")
     
     def get_statistics(self) -> Dict[str, Any]:
         """
@@ -192,9 +192,9 @@ def main():
     print(f"  Total conversations: {stats.get('total_conversations', 0)}")
     
     # Save in different formats
-    transformer.save_to_file('output_chatml.json', format='chatml')
-    transformer.save_to_file('output_text.txt', format='text')
-    transformer.save_to_file('output.jsonl', format='jsonl')
+    transformer.save_to_file('output_chatml.json', output_format='chatml')
+    transformer.save_to_file('output_text.txt', output_format='text')
+    transformer.save_to_file('output.jsonl', output_format='jsonl')
     
     print("\nOutput files created:")
     print("  - output_chatml.json (ChatML format for LLM training)")
