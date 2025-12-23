@@ -28,7 +28,6 @@ Edit `users.json` to map role names to Instagram usernames. A template is provid
 ```json
 {
   "user": "your_instagram_username",
-  "girlfriend": "girlfriend_instagram_username",
   "friend1": "friend1_instagram_username"
 }
 ```
@@ -137,7 +136,7 @@ InstagramChat-2-LLMdataset/
 ```
 === Conversation 1 ===
 user: Hello!
-girlfriend: Hi there!
+friend: Hi there!
 
 === Conversation 2 ===
 ...
