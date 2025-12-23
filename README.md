@@ -23,7 +23,7 @@ This tool processes Instagram message export files and transforms them into conv
 
 ### Configure users.json
 
-Edit `users.json` to map role names to Instagram usernames:
+Edit `users.json` to map role names to Instagram usernames. A template is provided in `users.json.template`:
 
 ```json
 {
@@ -32,6 +32,8 @@ Edit `users.json` to map role names to Instagram usernames:
   "friend1": "friend1_instagram_username"
 }
 ```
+
+**Note:** The `users.json` file comes pre-configured with example mappings that work with `data/messages.json.example`. Update it with your actual Instagram usernames when using your own data.
 
 ## Usage
 
@@ -56,17 +58,26 @@ print(f"Total conversations: {stats['total_conversations']}")
 
 ### Command Line Usage
 
+**Quick Start:**
+```bash
+python example.py
+```
+
+This interactive script will:
+1. Load `users.json` and `data/messages.json`
+2. Parse conversations (grouping messages within 30 seconds)
+3. Display statistics about your messages
+4. Generate three output files:
+   - `output_chatml.json` - ChatML format for LLM training
+   - `output_text.txt` - Human-readable text format
+   - `output.jsonl` - JSONL format
+
+**Alternative (Direct Transformer):**
 ```bash
 python transformer.py
 ```
 
-This will:
-1. Load `users.json` and `data/messages.json`
-2. Parse conversations (grouping messages within 30 seconds)
-3. Generate three output files:
-   - `output_chatml.json` - ChatML format for LLM training
-   - `output_text.txt` - Human-readable text format
-   - `output.jsonl` - JSONL format
+This will run the transformer's main function with the same functionality.
 
 ### Using the Parser Directly
 
@@ -101,7 +112,10 @@ InstagramChat-2-LLMdataset/
 │   └── messages.json.example  # Example format
 ├── parser.py                  # Message parser class
 ├── transformer.py             # Message transformer class
+├── example.py                 # Example usage script
+├── test.py                    # Test suite
 ├── users.json                 # User role mapping configuration
+├── users.json.template        # Template for user role mapping
 └── README.md
 ```
 
