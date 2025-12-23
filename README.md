@@ -49,7 +49,7 @@ transformer = MessageTransformer('users.json')
 transformer.load_and_parse('data/messages.json', time_threshold_seconds=30)
 
 # Save in ChatML format for LLM training
-transformer.save_to_file('output_chatml.json', format='chatml')
+transformer.save_to_file('output_chatml.json', output_format='chatml')
 
 # Get statistics
 stats = transformer.get_statistics()
