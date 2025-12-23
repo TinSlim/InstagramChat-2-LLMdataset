@@ -1,0 +1,36 @@
+{
+  "participants": [
+    {
+      "name": "User Name"
+    },
+    {
+      "name": "Other Person"
+    }
+  ],
+  "messages": [
+    {
+      "sender_name": "User Name",
+      "timestamp_ms": 1609459200000,
+      "content": "Hello!"
+    },
+    {
+      "sender_name": "Other Person",
+      "timestamp_ms": 1609459215000,
+      "content": "Hi there!"
+    },
+    {
+      "sender_name": "User Name",
+      "timestamp_ms": 1609459220000,
+      "content": "How are you?"
+    },
+    {
+      "sender_name": "Other Person",
+      "timestamp_ms": 1609459290000,
+      "content": "I'm good, thanks!"
+    }
+  ],
+  "title": "Chat Title",
+  "is_still_participant": true,
+  "thread_type": "Regular",
+  "thread_path": "inbox/thread_id"
+}

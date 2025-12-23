@@ -205,3 +205,9 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Instagram data and outputs
+data/messages.json
+output*.json
+output*.txt
+output*.jsonl
