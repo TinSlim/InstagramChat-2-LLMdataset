@@ -4,7 +4,7 @@ Uses the MessageParser to transform messages into training data.
 """
 import json
 from typing import Dict, List, Any, Optional
-from parser import MessageParser
+from .parser import MessageParser
 
 
 class MessageTransformer:
@@ -45,16 +45,21 @@ class MessageTransformer:
             print(f"Warning: {filepath} is not valid JSON. Using empty mapping.")
             return {}
     
-    def load_and_parse(self, messages_file: str, time_threshold_seconds: int = 30) -> None:
+    def load_and_parse(self, messages_file: str, time_threshold_seconds: int = 30, 
+                      interchange_only: bool = True, max_messages: int = 10,
+                      group_consecutive: bool = False) -> None:
         """
         Load messages and parse into conversations.
         
         Args:
-            messages_file: Path to messages.json file
+            messages_file: Path to messages.json file or folder containing multiple JSON files
             time_threshold_seconds: Time threshold for grouping messages (default: 30)
+            interchange_only: If True, only include conversations with interchange between senders (default: True)
+            max_messages: Maximum number of messages per conversation (default: 10)
+            group_consecutive: If True, group consecutive messages from the same sender (default: False)
         """
         self.parser.load_messages(messages_file)
-        self.parser.parse_conversations(time_threshold_seconds)
+        self.parser.parse_conversations(time_threshold_seconds, interchange_only, max_messages, group_consecutive)
     
     def to_chatml_format(self) -> List[Dict[str, Any]]:
         """
@@ -122,7 +127,7 @@ class MessageTransformer:
             List of JSON strings, one per conversation
         """
         chatml_data = self.to_chatml_format()
-        return [json.dumps(conv) for conv in chatml_data]
+        return [json.dumps(conv, ensure_ascii=False) for conv in chatml_data]
     
     def _map_sender_to_role(self, sender: str) -> str:
         """
@@ -137,9 +142,9 @@ class MessageTransformer:
         # Default mapping: 'user' role stays as 'user', others become 'assistant'
         # Customize this based on your needs
         if sender.lower() == 'user':
-            return 'user'
-        else:
             return 'assistant'
+        else:
+            return 'user'
     
     def save_to_file(self, output_file: str, output_format: str = 'chatml') -> None:
         """
@@ -152,7 +157,7 @@ class MessageTransformer:
         if output_format == 'chatml':
             data = self.to_chatml_format()
             with open(output_file, 'w', encoding='utf-8') as f:
-                json.dump(data, f, indent=2, ensure_ascii=False)
+                json.dump(data, f, indent=2, ensure_ascii=False, separators=(',', ': '))
         elif output_format == 'text':
             data = self.to_text_format()
             with open(output_file, 'w', encoding='utf-8') as f:

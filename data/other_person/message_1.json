@@ -4,7 +4,7 @@
       "name": "User Name"
     },
     {
-      "name": "Other Person"
+      "name": "other_person"
     }
   ],
   "messages": [
@@ -14,7 +14,7 @@
       "content": "Hello!"
     },
     {
-      "sender_name": "Other Person",
+      "sender_name": "other_person",
       "timestamp_ms": 1609459215000,
       "content": "Hi there!"
     },
@@ -24,7 +24,7 @@
       "content": "How are you?"
     },
     {
-      "sender_name": "Other Person",
+      "sender_name": "other_person",
       "timestamp_ms": 1609459290000,
       "content": "I'm good, thanks!"
     }

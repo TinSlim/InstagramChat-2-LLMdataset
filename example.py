@@ -6,7 +6,7 @@ This script demonstrates how to use the parser and transformer to convert
 Instagram messages into LLM training data.
 """
 import sys
-from transformer import MessageTransformer
+from src.transformer import MessageTransformer
 
 
 def main():
@@ -20,12 +20,14 @@ def main():
     
     # Configuration
     users_file = 'users.json'
-    messages_file = 'data/messages.json'
+    messages_folder = 'data/other_person/'  # Folder containing multiple JSON files
     time_threshold = 30  # seconds
     
+    #
+
     print("Configuration:")
     print(f"  Users mapping file: {users_file}")
-    print(f"  Messages file: {messages_file}")
+    print(f"  Messages folder: {messages_folder}")
     print(f"  Time threshold for conversations: {time_threshold} seconds")
     print()
     
@@ -39,18 +41,21 @@ def main():
         print("Example users.json:")
         print("""{
   "user": "your_instagram_username",
-  "girlfriend": "girlfriend_instagram_username",
-  "friend1": "friend1_instagram_username"
+  "other": "other_person_instagram_username",
 }""")
         return 1
     
     # Load and parse messages
-    print(f"Loading messages from {messages_file}...")
+    print(f"Loading messages from {messages_folder}...")
     try:
-        transformer.load_and_parse(messages_file, time_threshold_seconds=time_threshold)
+        transformer.load_and_parse(
+            messages_folder, 
+            time_threshold_seconds=time_threshold,
+            group_consecutive=True # <---- FLAG TO GROUP MESSAGES
+        )
     except FileNotFoundError:
-        print(f"Error: {messages_file} not found!")
-        print("\nPlease place your Instagram messages.json file in the data/ directory.")
+        print(f"Error: {messages_folder} not found!")
+        print("\nPlease place your Instagram message JSON files in the data/ directory.")
         print("See data/messages.json.example for the expected format.")
         return 1
     except Exception as e:
@@ -70,9 +75,9 @@ def main():
     print("Generating output files...")
     
     output_files = {
-        'output_chatml.json': 'chatml',
-        'output_text.txt': 'text',
-        'output.jsonl': 'jsonl'
+        './export/output_chatml.json': 'chatml',
+        './export/output_text.txt': 'text',
+        './export/output.jsonl': 'jsonl'
     }
     
     for filename, format_type in output_files.items():

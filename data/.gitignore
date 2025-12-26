@@ -1,0 +1,5 @@
+# Ignore everything
+*
+!other_person/
+!other_person/**
+!.gitignore

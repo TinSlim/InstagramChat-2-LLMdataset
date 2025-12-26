@@ -1,5 +1,5 @@
 {
   "user": "your_instagram_username",
-  "friend1": "friend1_instagram_username",
-  "friend2": "another_friend_username"
+  "friend": "other_person",
+  "friend2": "another_person"
 }
