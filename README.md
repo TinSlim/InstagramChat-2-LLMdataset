@@ -58,7 +58,8 @@ transformer.load_and_parse(
     time_threshold_seconds=30,      # Time threshold for grouping
     interchange_only=True,          # Only conversations with multiple speakers
     max_messages=10,                # Max messages per conversation
-    group_consecutive=True          # Group consecutive messages from same sender
+    group_consecutive=True,         # Group consecutive messages from same sender
+    consecutive_separator=', '      # Separator between grouped messages
 )
 
 # Save in ChatML format for LLM training
@@ -112,7 +113,8 @@ conversations = parser.parse_conversations(
     time_threshold_seconds=30,
     interchange_only=True,
     max_messages=10,
-    group_consecutive=True
+    group_consecutive=True,
+    consecutive_separator=', '  # Separator between grouped messages
 )
 
 # Access conversations
@@ -193,10 +195,23 @@ Messages are grouped into conversations based on multiple criteria:
 - Prevents overly long single conversations in training data
 
 ### Consecutive Message Grouping
-- **`group_consecutive=True`**: Consecutive messages from the same sender are grouped into one message separated by newlines
+- **`group_consecutive=True`**: Consecutive messages from the same sender are grouped into one message separated by a customizable separator
 - **`group_consecutive=False` (default)**: Each message is kept separate
+- **`consecutive_separator=', '` (default)**: String separator between grouped messages (e.g., `, ` or `\n`)
 
-Example with grouping enabled:
+Example with grouping enabled (using default separator `', '`):
+```
+friend: Message 1
+friend: Message 2
+friend: Message 3
+```
+
+Becomes:
+```
+friend: Message 1, Message 2, Message 3
+```
+
+Example with `\n` separator:
 ```
 friend: Message 1
 friend: Message 2
@@ -227,6 +242,33 @@ Example:
 
 - Python 3.7+
 - No external dependencies (uses only standard library: json, os, datetime)
+
+## Advanced Configuration
+
+### load_and_parse() Parameters
+
+```python
+transformer.load_and_parse(
+    messages_file: str,                    # Path to JSON file or folder
+    time_threshold_seconds: int = 30,      # Seconds for message grouping
+    interchange_only: bool = True,         # Filter single-speaker conversations
+    max_messages: int = 10,                # Max messages per conversation
+    group_consecutive: bool = False,       # Group consecutive messages from same sender
+    consecutive_separator: str = ', '      # Separator between grouped messages
+)
+```
+
+### parse_conversations() Parameters
+
+```python
+parser.parse_conversations(
+    time_threshold_seconds: int = 30,      # Seconds for message grouping
+    interchange_only: bool = True,         # Filter single-speaker conversations
+    max_messages: int = 10,                # Max messages per conversation
+    group_consecutive: bool = False,       # Group consecutive messages from same sender
+    consecutive_separator: str = ', '      # Separator between grouped messages
+)
+```
 
 ## Troubleshooting
 

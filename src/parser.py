@@ -145,7 +145,8 @@ class MessageParser:
     def parse_conversations(self, time_threshold_seconds: int = 30, 
                           interchange_only: bool = True,
                           max_messages: int = 10,
-                          group_consecutive: bool = False) -> List[List[Dict[str, Any]]]:
+                          group_consecutive: bool = False,
+                          consecutive_separator: str = ', ') -> List[List[Dict[str, Any]]]:
         """
         Parse messages and group them into conversations.
         
@@ -158,6 +159,7 @@ class MessageParser:
             interchange_only: If True, only include conversations with at least 2 different senders (default: True)
             max_messages: Maximum number of messages per conversation (default: 10)
             group_consecutive: If True, group consecutive messages from the same sender (default: False)
+            consecutive_separator: Separator for grouped consecutive messages (default: ', ')
             
         Returns:
             List of conversations, where each conversation is a list of messages
@@ -235,7 +237,7 @@ class MessageParser:
         
         # Group consecutive messages from the same sender if requested
         if group_consecutive:
-            conversations = [self._group_consecutive_messages(conv) for conv in conversations]
+            conversations = [self._group_consecutive_messages(conv, consecutive_separator) for conv in conversations]
         
         self.conversations = conversations
         return conversations
@@ -259,12 +261,14 @@ class MessageParser:
         senders = set(msg['sender'] for msg in conversation)
         return len(senders) >= 2
     
-    def _group_consecutive_messages(self, conversation: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    def _group_consecutive_messages(self, conversation: List[Dict[str, Any]], 
+                                   separator: str = ', ') -> List[Dict[str, Any]]:
         """
         Group consecutive messages from the same sender into single messages.
         
         Args:
             conversation: List of messages in the conversation
+            separator: String separator between grouped messages (default: ', ')
             
         Returns:
             List of messages with consecutive messages from same sender grouped
@@ -281,7 +285,7 @@ class MessageParser:
                 current_group = msg.copy()
             elif current_group['sender'] == msg['sender']:
                 # Same sender - append content to current group
-                current_group['content'] += ', ' + msg['content'] # TODO caracter to separate messages
+                current_group['content'] += separator + msg['content']
                 # Update timestamp to the latest one
                 current_group['timestamp_ms'] = msg['timestamp_ms']
                 current_group['timestamp'] = msg['timestamp']

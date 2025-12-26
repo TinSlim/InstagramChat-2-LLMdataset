@@ -47,7 +47,7 @@ class MessageTransformer:
     
     def load_and_parse(self, messages_file: str, time_threshold_seconds: int = 30, 
                       interchange_only: bool = True, max_messages: int = 10,
-                      group_consecutive: bool = False) -> None:
+                      group_consecutive: bool = False, consecutive_separator: str = ', ') -> None:
         """
         Load messages and parse into conversations.
         
@@ -57,9 +57,10 @@ class MessageTransformer:
             interchange_only: If True, only include conversations with interchange between senders (default: True)
             max_messages: Maximum number of messages per conversation (default: 10)
             group_consecutive: If True, group consecutive messages from the same sender (default: False)
+            consecutive_separator: Separator for grouped consecutive messages (default: ', ')
         """
         self.parser.load_messages(messages_file)
-        self.parser.parse_conversations(time_threshold_seconds, interchange_only, max_messages, group_consecutive)
+        self.parser.parse_conversations(time_threshold_seconds, interchange_only, max_messages, group_consecutive, consecutive_separator)
     
     def to_chatml_format(self) -> List[Dict[str, Any]]:
         """
