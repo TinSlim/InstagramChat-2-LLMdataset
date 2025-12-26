@@ -325,9 +325,15 @@ class MessageParser:
             if 'content' in msg
         )
         
+        # Get unique participants from conversations
+        participants = set()
+        for conv in self.conversations:
+            for msg in conv:
+                participants.add(msg['sender'])
+        
         return {
             'total_messages': total_messages,
             'messages_with_content': messages_with_content,
             'total_conversations': len(self.conversations),
-            'participants': self.messages_data.get('participants', [])
+            'participants': list(participants)
         }
